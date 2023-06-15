@@ -4,12 +4,12 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_Demo_Params_H8 : IndiDemoParams {
-  Indi_Demo_Params_H8() : IndiDemoParams(indi_demo_defaults, PERIOD_H8) { shift = 0; }
-} indi_demo_h8;
+struct Indi_XTrendLineX_Params_H8 : IndiXTrendLineXParams {
+  Indi_XTrendLineX_Params_H8() : IndiXTrendLineXParams(indi_xtrendlinex_defaults, PERIOD_H8) { shift = 0; }
+} indi_xtrendlinex_h8;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
-struct Stg_Demo_Params_H8 : StgParams {
+struct Stg_XTrendLineX_Params_H8 : StgParams {
   // Struct constructor.
-  Stg_Demo_Params_H8() : StgParams(stg_demo_defaults) {}
-} stg_demo_h8;
+  Stg_XTrendLineX_Params_H8() : StgParams(stg_xtrendlinex_defaults) {}
+} stg_xtrendlinex_h8;
