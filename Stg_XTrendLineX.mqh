@@ -43,17 +43,6 @@ struct Stg_XTrendLineX_Params_Defaults : StgParams {
   }
 };
 
-#ifdef __config__
-// Loads pair specific param values.
-#include "config/H1.h"
-#include "config/H4.h"
-#include "config/H8.h"
-#include "config/M1.h"
-#include "config/M15.h"
-#include "config/M30.h"
-#include "config/M5.h"
-#endif
-
 class Stg_XTrendLineX : public Strategy {
  public:
   Stg_XTrendLineX(StgParams &_sparams, TradeParams &_tparams, ChartParams &_cparams, string _name = "")
@@ -63,10 +52,6 @@ class Stg_XTrendLineX : public Strategy {
     // Initialize strategy initial values.
     Stg_XTrendLineX_Params_Defaults stg_xtrendlinex_defaults;
     StgParams _stg_params(stg_xtrendlinex_defaults);
-#ifdef __config__
-    SetParamsByTf<StgParams>(_stg_params, _tf, stg_xtrendlinex_m1, stg_xtrendlinex_m5, stg_xtrendlinex_m15,
-                             stg_xtrendlinex_m30, stg_xtrendlinex_h1, stg_xtrendlinex_h4, stg_xtrendlinex_h8);
-#endif
     // Initialize indicator.
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
