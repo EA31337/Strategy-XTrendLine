@@ -8,17 +8,11 @@
 
 Strategy based on the XTrendLineX indicator.
 
-This is example xtrendlinex strategy for the xtrendlinexnstration purposes.
-
 ## Dependencies
 
 | Tag      | Framework |
 |:--------:|:---------:|
-| v1.000   | v2.000    |
-| v1.001   | v2.001    |
-| ...      | ...       |
-| v1.009   | v2.009    |
-| v1.010   | v2.010    |
+| v2.000   | v3.000.1  |
 
 <!-- Named links -->
 
