@@ -112,7 +112,7 @@ jobs:
     strategy:
       matrix:
         month: [1]
-        year: [2019, 2020]
+        year: [2020, 2021]
     steps:
       - uses: actions/download-artifact@v2
         with:
@@ -125,6 +125,7 @@ jobs:
             "$TERMINAL_DIR/$MQL_DIR/Indicators"
           BtDeposit: 100000
           BtDest: ${{ github.workspace }}/_results
+          BtDays: 2-12
           BtMonths: ${{ matrix.month }}
           BtYears: ${{ matrix.year }}
           OptFormatBrief: true
@@ -138,3 +139,4 @@ jobs:
         with:
           name: results
           path: ${{ github.workspace }}/_results/*.*
+    timeout-minutes: 10
