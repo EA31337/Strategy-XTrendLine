@@ -3,6 +3,9 @@
  * Implements XTrendLineX strategy based on the XTrendLineX indicator.
  */
 
+// Includes.
+#include "Indi_XTrendLineX.mqh"
+
 // User input params.
 INPUT_GROUP("XTrendLineX strategy: strategy params");
 INPUT float XTrendLineX_LotSize = 0;                // Lot size
@@ -19,12 +22,15 @@ INPUT float XTrendLineX_PriceStopLevel = 2;         // Price limit level
 INPUT int XTrendLineX_TickFilterMethod = 32;        // Tick filter method (0-255)
 INPUT float XTrendLineX_MaxSpread = 4.0;            // Max spread to trade (in pips)
 INPUT short XTrendLineX_Shift = 0;                  // Shift
-INPUT float XTrendLineX_OrderCloseLoss = 80;        // Order close loss
-INPUT float XTrendLineX_OrderCloseProfit = 80;      // Order close profit
-INPUT int XTrendLineX_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
+INPUT float XTrendLineX_OrderCloseLoss = 20;        // Order close loss
+INPUT float XTrendLineX_OrderCloseProfit = 20;      // Order close profit
+INPUT int XTrendLineX_OrderCloseTime = -10;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("XTrendLineX strategy: XTrendLineX indicator params");
-INPUT int XTrendLineX_Indi_XTrendLineX_Shift = 0;                                        // Shift
+INPUT int XTrendLineX_Indi_XTrendLineX_Shift = 1;                                        // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE XTrendLineX_Indi_XTrendLineX_SourceType = IDATA_INDICATOR;  // Source type
+INPUT_GROUP("XTrendLineX strategy: Price indicator params");
+INPUT ENUM_APPLIED_PRICE XTrendLineX_Indi_AppliedPrice = PRICE_TYPICAL;  // Applied Price
+INPUT int XTrendLineX_Indi_Price_Shift = 0;                              // Shift
 
 // Structs.
 
@@ -52,7 +58,6 @@ class Stg_XTrendLineX : public Strategy {
     // Initialize strategy initial values.
     Stg_XTrendLineX_Params_Defaults stg_xtrendlinex_defaults;
     StgParams _stg_params(stg_xtrendlinex_defaults);
-    // Initialize indicator.
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
@@ -64,40 +69,42 @@ class Stg_XTrendLineX : public Strategy {
    * Event on strategy's init.
    */
   void OnInit() {
-    // IndiXTrendLineXParams _indi_params(::XTrendLineX_Indi_XTrendLineX_Shift);
-    //_indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
-    // SetIndicator(new Indi_XTrendLineX(_indi_params));
+    IndiXTrendLineXParams _indi_main_params(::XTrendLineX_Indi_XTrendLineX_Shift);
+    _indi_main_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    SetIndicator(new Indi_XTrendLineX(_indi_main_params), INDI_CUSTOM);
+    // Price indicator to read from chart.
+    PriceIndiParams _indi_price_params(::XTrendLineX_Indi_AppliedPrice, ::XTrendLineX_Indi_Price_Shift);
+    SetIndicator(new Indi_Price(_indi_price_params), INDI_PRICE);
   }
 
   /**
    * Check strategy's opening signal.
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method, float _level = 0.0f, int _shift = 0) {
-    /*
-    Indi_XTrendLineX *_indi = GetIndicator();
-    bool _result =
-        _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) && _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 1);
+    Indi_XTrendLineX *_indi = GetIndicator(INDI_CUSTOM);
+    IndiXTrendLineXParams _indi_params = _indi.GetParams();
+    Indi_Price *_indi_price = GetIndicator(INDI_PRICE);
+    PriceIndiParams _indi_price_params = _indi_price.GetParams();
+    bool _result = _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID);
+    int _ishift = _indi_params.GetShift();
     if (!_result) {
       // Returns false when indicator data is not valid.
       return false;
     }
-    IndicatorSignal _signals = _indi.GetSignals(4, _shift);
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         // Buy signal.
-        _result &= _indi.IsIncreasing(1, 0, _shift);
-        _result &= _indi.IsIncByPct(_level / 10, 0, _shift, 2);
-        _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
+        _result &= _indi_price[0][_shift] > _indi[(int)XTRENDLINE_HIGH][_shift];
+        _result &= _indi.IsIncreasing(1, XTRENDLINE_LAST, _ishift);
+        _result &= _indi.IsIncByPct(_level / 10, XTRENDLINE_LAST, _ishift, 1);
         break;
       case ORDER_TYPE_SELL:
         // Sell signal.
-        _result &= _indi.IsDecreasing(1, 0, _shift);
-        _result &= _indi.IsDecByPct(_level / 10, 0, _shift, 2);
-        _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
+        _result &= _indi_price[0][_shift] < _indi[(int)XTRENDLINE_LOW][_shift];
+        _result &= _indi.IsDecreasing(1, XTRENDLINE_LAST, _ishift);
+        _result &= _indi.IsDecByPct(_level / 10, XTRENDLINE_LAST, _ishift, 1);
         break;
     }
     return _result;
-    */
-    return true;
   }
 };

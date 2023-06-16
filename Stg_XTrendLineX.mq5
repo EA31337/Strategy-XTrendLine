@@ -8,7 +8,7 @@
 
 // Includes EA31337 framework.
 #include <EA31337-classes/EA.mqh>
-//#include <EA31337-classes/Indicators/Indi_XTrendLineX.mqh>
+#include <EA31337-classes/Indicators/Price/Indi_Price.mqh>
 #include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
@@ -33,6 +33,19 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property description ea_desc
 #endif
 #property link ea_link
+#ifdef __resource__
+#ifdef __MQL5__
+#property tester_indicator "::" + INDI_XTRENDLINE_PATH + "\\XTrendLineX.ex5"
+#property tester_library "::" + INDI_XTRENDLINE_PATH + "\\XTrendLineX.ex5"
+#endif
+#endif
+
+// Load external resources.
+#ifdef __resource__
+#ifdef __MQL5__
+#resource INDI_XTRENDLINE_PATH + "\\XTrendLineX.ex5"
+#endif
+#endif
 
 // Class variables.
 EA *ea;

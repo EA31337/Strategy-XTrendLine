@@ -11,3 +11,8 @@
 
 // Includes the main code.
 #include "Stg_XTrendLineX.mq5"
+
+// Load external resources.
+#ifdef __resource__
+#resource INDI_XTRENDLINE_PATH + "\\XTrendLineX.ex4"
+#endif
