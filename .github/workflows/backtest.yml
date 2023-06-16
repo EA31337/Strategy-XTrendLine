@@ -125,7 +125,7 @@ jobs:
             "$TERMINAL_DIR/$MQL_DIR/Indicators"
           BtDeposit: 100000
           BtDest: ${{ github.workspace }}/_results
-          BtDays: 2-12
+          BtDays: 2-8
           BtMonths: ${{ matrix.month }}
           BtYears: ${{ matrix.year }}
           OptFormatBrief: true
