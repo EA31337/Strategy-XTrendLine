@@ -12,8 +12,8 @@
 #include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
-input int Active_Tfs = M15B + M30B + H1B + H2B + H3B + H4B + H6B +
-                       H8B;               // Timeframes (M1=1,M2=2,M5=16,M15=256,M30=1024,H1=2048,H2=4096,H3,H4,H6,H8)
+input int Active_Tfs = M1B + M2B + M3B + M4B + M5B + M6B + M10B + M12B +
+                       M15B;              // Timeframes (M1=1,M2=2,M5=16,M15=256,M30=1024,H1=2048,H2=4096,H3,H4,H6,H8)
 input ENUM_LOG_LEVEL Log_Level = V_INFO;  // Log level.
 input bool Info_On_Chart = true;          // Display info on chart.
 

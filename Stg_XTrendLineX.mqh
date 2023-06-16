@@ -22,15 +22,15 @@ INPUT float XTrendLineX_PriceStopLevel = 2;         // Price limit level
 INPUT int XTrendLineX_TickFilterMethod = 32;        // Tick filter method (0-255)
 INPUT float XTrendLineX_MaxSpread = 4.0;            // Max spread to trade (in pips)
 INPUT short XTrendLineX_Shift = 0;                  // Shift
-INPUT float XTrendLineX_OrderCloseLoss = 20;        // Order close loss
-INPUT float XTrendLineX_OrderCloseProfit = 20;      // Order close profit
-INPUT int XTrendLineX_OrderCloseTime = -10;         // Order close time in mins (>0) or bars (<0)
+INPUT float XTrendLineX_OrderCloseLoss = 80;        // Order close loss
+INPUT float XTrendLineX_OrderCloseProfit = 80;      // Order close profit
+INPUT int XTrendLineX_OrderCloseTime = -40;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("XTrendLineX strategy: XTrendLineX indicator params");
-INPUT int XTrendLineX_Indi_XTrendLineX_Shift = 1;                                        // Shift
+INPUT int XTrendLineX_Indi_XTrendLineX_Shift = 2;                                        // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE XTrendLineX_Indi_XTrendLineX_SourceType = IDATA_INDICATOR;  // Source type
 INPUT_GROUP("XTrendLineX strategy: Price indicator params");
-INPUT ENUM_APPLIED_PRICE XTrendLineX_Indi_AppliedPrice = PRICE_TYPICAL;  // Applied Price
-INPUT int XTrendLineX_Indi_Price_Shift = 0;                              // Shift
+INPUT ENUM_APPLIED_PRICE XTrendLineX_Indi_AppliedPrice = PRICE_CLOSE;  // Applied Price
+INPUT int XTrendLineX_Indi_Price_Shift = 0;                            // Shift
 
 // Structs.
 
