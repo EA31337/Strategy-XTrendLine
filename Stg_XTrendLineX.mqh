@@ -26,6 +26,7 @@ INPUT float XTrendLineX_OrderCloseLoss = 80;        // Order close loss
 INPUT float XTrendLineX_OrderCloseProfit = 80;      // Order close profit
 INPUT int XTrendLineX_OrderCloseTime = -40;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("XTrendLineX strategy: XTrendLineX indicator params");
+INPUT ENUM_TIMEFRAMES XTrendLineX_Indi_XTrendLineX_Period = PERIOD_CURRENT;              // Period
 INPUT int XTrendLineX_Indi_XTrendLineX_Shift = 2;                                        // Shift
 INPUT ENUM_IDATA_SOURCE_TYPE XTrendLineX_Indi_XTrendLineX_SourceType = IDATA_INDICATOR;  // Source type
 INPUT_GROUP("XTrendLineX strategy: Price indicator params");
@@ -69,7 +70,8 @@ class Stg_XTrendLineX : public Strategy {
    * Event on strategy's init.
    */
   void OnInit() {
-    IndiXTrendLineXParams _indi_main_params(::XTrendLineX_Indi_XTrendLineX_Shift);
+    IndiXTrendLineXParams _indi_main_params(::XTrendLineX_Indi_XTrendLineX_Period,
+                                            ::XTrendLineX_Indi_XTrendLineX_Shift);
     _indi_main_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
     SetIndicator(new Indi_XTrendLineX(_indi_main_params), INDI_CUSTOM);
     // Price indicator to read from chart.

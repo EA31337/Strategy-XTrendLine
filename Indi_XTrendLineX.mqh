@@ -41,9 +41,10 @@ enum ENUM_XTRENDLINE_MODE {
 // Defines struct to store indicator parameter values.
 struct IndiXTrendLineXParams : public IndicatorParams {
   // Indicator params.
+  ENUM_TIMEFRAMES period;
   // Struct constructors.
-  IndiXTrendLineXParams(int _shift = 0)
-      : IndicatorParams(INDI_CUSTOM /*INDI_XTRENDLINE*/, FINAL_XTRENDLINE_MODE_ENTRY, TYPE_DOUBLE) {
+  IndiXTrendLineXParams(ENUM_TIMEFRAMES _period = PERIOD_CURRENT, int _shift = 0)
+      : period(_period), IndicatorParams(INDI_CUSTOM /*INDI_XTRENDLINE*/, FINAL_XTRENDLINE_MODE_ENTRY, TYPE_DOUBLE) {
 #ifdef __resource__
     custom_indi_name = "::" + INDI_XTRENDLINE_PATH + "\\XTrendLineX";
 #else
@@ -81,7 +82,7 @@ class Indi_XTrendLineX : public Indicator<IndiXTrendLineXParams> {
     switch (iparams.idstype) {
       case IDATA_ICUSTOM:
         _value = iCustom(istate.handle, Get<string>(CHART_PARAM_SYMBOL), Get<ENUM_TIMEFRAMES>(CHART_PARAM_TF),
-                         iparams.custom_indi_name, true, STYLE_DOT, 1, clrLimeGreen, clrRed, _mode, _ishift);
+                         iparams.custom_indi_name, iparams.period, _mode, _ishift);
         break;
       default:
         SetUserError(ERR_INVALID_PARAMETER);
